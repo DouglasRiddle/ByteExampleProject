@@ -16,7 +16,7 @@
 
             var definedContentType = "application/octet-stream";
             if (typeof contentType !== "undefined") { definedContentType = contentType; }
-            var blob = new Blob([bytes.buffer], { type: definedContentType });
+            var blob = new Blob([bytes], { type: definedContentType });
 
             if (navigator.msSaveBlob) {
                 //Download document in Edge browser                
