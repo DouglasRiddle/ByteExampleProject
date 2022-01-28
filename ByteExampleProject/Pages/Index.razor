@@ -1,0 +1,15 @@
+﻿@page "/"
+
+@inject IJSRuntime jsRuntime
+
+<PageTitle>Index</PageTitle>
+
+<button @onclick="@(async () => await OpenFileAsync(jsRuntime))">Open Plain Text File</button>
+
+@code {
+    private static async Task OpenFileAsync(IJSRuntime js)
+    {
+        byte[] byteArray = System.Text.Encoding.ASCII.GetBytes("Plain Text String");
+        await js.InvokeAsync<object>("BlazorInputFile.downloadFile", "Test.txt", byteArray, "text/plain", true);
+    }
+}
