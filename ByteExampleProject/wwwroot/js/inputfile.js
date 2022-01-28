@@ -1,22 +1,11 @@
 ﻿(function () {
     window.BlazorInputFile = {
-        /* Source: https://www.syncfusion.com/kb/10358/how-to-create-a-pdf-file-in-blazor-using-c
-         *        ,https://github.com/arivera12/BlazorDownloadFile/blob/3f6383d3bd4435aabbf5f920316cad8088e48808/BlazorDownloadFile/Script/DownloadFileScript.cs#L36 */
-        downloadFile: function downloadFile(filename, bytes, contentType, openInBrowser) {
-            /* Old load method with based base64
-            var data = window.atob( bytesBase64 );
-            var bytes = new Uint8Array( data.length );
-            for ( var i = 0; i < data.length; i++ ) {
-                bytes[i] = data.charCodeAt( i );
-            }
-            */            
-
-            // Uncomment this to load as expected with passed Uint8Array
-            //bytes = new Uint8Array(bytes);
+        downloadFile: async function downloadFile(filename, byteStream, contentType, openInBrowser) {
+            const arrayBuffer = await byteStream.arrayBuffer();
 
             var definedContentType = "application/octet-stream";
             if (typeof contentType !== "undefined") { definedContentType = contentType; }
-            var blob = new Blob([bytes], { type: definedContentType });
+            var blob = new Blob([arrayBuffer], { type: definedContentType });
 
             if (navigator.msSaveBlob) {
                 //Download document in Edge browser                

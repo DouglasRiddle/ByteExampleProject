@@ -4,12 +4,16 @@
 
 <PageTitle>Index</PageTitle>
 
-<button @onclick="@(async () => await OpenFileAsync(jsRuntime))">Open Plain Text File</button>
+<button @onclick="@OpenFileAsync">Open Plain Text File</button>
 
 @code {
-    private static async Task OpenFileAsync(IJSRuntime js)
+    private async Task OpenFileAsync()
     {
         byte[] byteArray = System.Text.Encoding.ASCII.GetBytes("Plain Text String");
-        await js.InvokeAsync<object>("BlazorInputFile.downloadFile", "Test.txt", byteArray, "text/plain", true);
+        var fileStream = new MemoryStream(byteArray);
+
+        using var streamRef = new DotNetStreamReference(fileStream);
+
+        await jsRuntime.InvokeAsync<object>("BlazorInputFile.downloadFile", "Test.txt", streamRef, "text/plain", true);
     }
 }
